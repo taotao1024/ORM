@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<orm-mapping>
+    <class name="com.lsy.orm.test.entity.Book" table="t_book">
+        <id name="id" column="bid"></id>
+        <property name="name" column="bname"></property>
+        <property name="author" column="author"></property>
+        <property name="price" column="price"></property>
+    </class>
+</orm-mapping>

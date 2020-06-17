@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+1.数据库连接
+2.映射配置文件的路径
+3.实体类所在的包路径
+-->
+<orm-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
+    <property name="connection.driverClass">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">123</property>
+
+    <mapping resource="cn/itcast/orm/test/entity/Book.mapper.xml"></mapping>
+
+    <entity package="cn.itcast.orm.test.entity"></entity>
+
+</orm-factory>
