@@ -3,16 +3,32 @@ package com.lsy.myorm.core;
 import java.util.HashMap;
 import java.util.Map;
 
-//该类用来封装和存储映射信息
+/**
+ * 该类用来封装和存储映射信息
+ *
+ * @author lsy
+ */
 public class Mapper {
 
-    private String className; //类名
+    /**
+     * 类名
+     */
+    private String className;
 
-    private String tableName; //表名
+    /**
+     * 表名
+     */
+    private String tableName;
 
-    private Map<String,String> idMapper = new HashMap<>(); //主键信息
+    /**
+     * 主键信息
+     */
+    private Map<String, String> idMapper = new HashMap<>();
 
-    private Map<String,String> propMapper = new HashMap<>(); //普通的属性和字段信息
+    /**
+     * 普通的属性和字段信息
+     */
+    private Map<String, String> propMapper = new HashMap<>();
 
     public String getClassName() {
         return className;

@@ -1,25 +1,24 @@
-package com.lsy.orm.test.entity;
+package com.lsy.myorm.test.pojo;
 
-//实体类：图书
+import com.lsy.myorm.annotation.MyOrmTable;
+import com.lsy.myorm.annotation.MyOrmColumn;
+import com.lsy.myorm.annotation.MyOrmId;
 
-import com.lsy.orm.annotation.ORMColumn;
-import com.lsy.orm.annotation.ORMId;
-import com.lsy.orm.annotation.ORMTable;
 
-@ORMTable(name = "t_book")
+@MyOrmTable(name = "t_book")
 public class Book {
 
-    @ORMId
-    @ORMColumn(name = "bid")
+    @MyOrmId
+    @MyOrmColumn(name = "bid")
     private Integer id;
 
-    @ORMColumn(name = "bname")
+    @MyOrmColumn(name = "bname")
     private String name;
 
-    @ORMColumn(name = "author")
+    @MyOrmColumn(name = "author")
     private String author;
 
-    @ORMColumn(name = "price")
+    @MyOrmColumn(name = "price")
     private double price;
 
     public Integer getId() {
@@ -52,5 +51,15 @@ public class Book {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

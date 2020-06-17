@@ -1,35 +1,45 @@
 package com.lsy.myorm.util;
 
-import cn.itcast.orm.annotation.ORMColumn;
-import cn.itcast.orm.annotation.ORMId;
-import cn.itcast.orm.annotation.ORMTable;
+
+import com.lsy.myorm.annotation.MyOrmColumn;
+import com.lsy.myorm.annotation.MyOrmId;
+import com.lsy.myorm.annotation.MyOrmTable;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/*
-    使用反射解析实体类中注解的工具类
+/**
+ * 使用反射解析实体类中注解的工具类
+ *
+ * @author lsy
  */
 public class AnnotationUtil {
 
-    /*
-    得到的类名
+
+    /**
+     * 得到的类名
+     *
+     * @param clz class
+     * @return className
      */
     public static String getClassName(Class clz) {
         return clz.getName();
     }
 
-    /*
-    得到ORMTable注解中的表名
+    /**
+     * 得到MyOrmTable注解中的表名
+     *
+     * @param clz class
+     * @return
      */
     public static String getTableName(Class clz) {
-        if (clz.isAnnotationPresent(ORMTable.class)) {
-            ORMTable ormTable = (ORMTable) clz.getAnnotation(ORMTable.class);
+        if (clz.isAnnotationPresent(MyOrmTable.class)) {
+            MyOrmTable ormTable = (MyOrmTable) clz.getAnnotation(MyOrmTable.class);
             return ormTable.name();
         } else {
             System.out.println("缺少ORMTable注解");
@@ -37,19 +47,22 @@ public class AnnotationUtil {
         }
     }
 
-    /*
-    得到主键属性和对应的字段
+    /**
+     * 得到主键属性和对应的字段
+     *
+     * @param clz class
+     * @return
      */
     public static Map<String, String> getIdMapper(Class clz) {
         boolean flag = true;
         Map<String, String> map = new HashMap<>();
         Field[] fields = clz.getDeclaredFields();
         for (Field field : fields) {
-            if (field.isAnnotationPresent(ORMId.class)) {
+            if (field.isAnnotationPresent(MyOrmId.class)) {
                 flag = false;
                 String fieldName = field.getName();
-                if (field.isAnnotationPresent(ORMColumn.class)) {
-                    ORMColumn ormColumn = field.getAnnotation(ORMColumn.class);
+                if (field.isAnnotationPresent(MyOrmColumn.class)) {
+                    MyOrmColumn ormColumn = field.getAnnotation(MyOrmColumn.class);
                     String columnName = ormColumn.name();
                     map.put(fieldName, columnName);
                     break;
@@ -64,16 +77,19 @@ public class AnnotationUtil {
         return map;
     }
 
-    /*
-    得到类中所有属性和对应的字段
+    /**
+     * 得到类中所有属性和对应的字段
+     *
+     * @param clz class
+     * @return
      */
     public static Map<String, String> getPropMapping(Class clz) {
         Map<String, String> map = new HashMap<>();
         map.putAll(getIdMapper(clz));
         Field[] fields = clz.getDeclaredFields();
         for (Field field : fields) {
-            if (field.isAnnotationPresent(ORMColumn.class)) {
-                ORMColumn ormColumn = field.getAnnotation(ORMColumn.class);
+            if (field.isAnnotationPresent(MyOrmColumn.class)) {
+                MyOrmColumn ormColumn = field.getAnnotation(MyOrmColumn.class);
                 String fieldName = field.getName();
                 String columnName = ormColumn.name();
                 map.put(fieldName, columnName);
@@ -82,8 +98,11 @@ public class AnnotationUtil {
         return map;
     }
 
-    /*
-    获得某包下面的所有类名
+    /**
+     * 获得某包下面的所有类名
+     *
+     * @param packagePath 包路全限定类名
+     * @return
      */
     public static Set<String> getClassNameByPackage(String packagePath) {  //cn.itcast.orm.entity
         Set<String> names = new HashSet<>();

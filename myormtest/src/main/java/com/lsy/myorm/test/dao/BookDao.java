@@ -1,27 +1,32 @@
-package com.lsy.orm.test.dao;
+package com.lsy.myorm.test.dao;
 
-import com.lsy.orm.core.ORMConfig;
-import com.lsy.orm.core.ORMSession;
-import com.lsy.orm.test.entity.Book;
+import com.lsy.myorm.core.ORMConfig;
+import com.lsy.myorm.core.ORMSession;
+import com.lsy.myorm.test.pojo.Book;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 测试myorm
+ *
+ * @author lsy
+ */
 public class BookDao {
 
     private ORMConfig config;
 
     @Before
-    public void init(){
+    public void init() {
         //1. 创建ORMConfig对象
-        config=new ORMConfig();
+        config = new ORMConfig();
     }
 
     @Test
-    public void testSave() throws  Exception{
+    public void testSave() throws Exception {
         //2. 创建ORMSession对象
-        ORMSession session=config.buildORMSession();
+        ORMSession session = config.buildORMSession();
         //3. 创建实体类对象并保存
-        Book book=new Book();
+        Book book = new Book();
         book.setId(11);
         book.setName("java从入门到精通");
         book.setAuthor("传智播客");
@@ -32,29 +37,28 @@ public class BookDao {
     }
 
     @Test
-    public void testFindOne() throws Exception{
+    public void testFindOne() throws Exception {
         //2. 创建ORMSession对象
-        ORMSession session=config.buildORMSession();
+        ORMSession session = config.buildORMSession();
         //3. 创建实体类对象并查询
-        Book book=(Book)session.findOne(Book.class,11);
+        Book book = (Book) session.findOne(Book.class, 11);
         System.out.println(book.getName());
         //4. 释放资源
         session.close();
     }
 
     @Test
-    public void testDelete() throws  Exception{
+    public void testDelete() throws Exception {
         //2. 创建ORMSession对象
-        ORMSession session=config.buildORMSession();
+        ORMSession session = config.buildORMSession();
 
         //3. 创建实体类对象并删除
-        Book book=new Book();
+        Book book = new Book();
         book.setId(11);
         session.delete(book);
 
         //4. 释放资源
         session.close();
     }
-
 
 }

@@ -1,14 +1,17 @@
 package com.lsy.myorm.annotation;
 
-
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-//该注解用来设置字段名
+
+/**
+ * 设置表名
+ *
+ * @author lsy
+ */
 @Retention(RetentionPolicy.RUNTIME) //运行期间保留注解的信息
-@Target(ElementType.FIELD) //设置注解用到什么地方
-public @interface ORMColumn {
-    public String name() default "";
+@Target(ElementType.TYPE)
+public @interface MyOrmTable {
+    String name() default "";
 }

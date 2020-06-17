@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//该类生成sql并实现增删改查功能
+/**
+ * 该类生成sql并实现增删改查功能
+ *
+ * @author lsy
+ */
 public class ORMSession {
 
     private Connection connection;
@@ -96,12 +100,12 @@ public class ORMSession {
     }
 
     // 根据主键进行查询  select * from 表名 where  主键字段 = 值
-    public Object findOne(Class clz, Object id) throws  Exception{
+    public Object findOne(Class clz, Object id) throws Exception {
 
         String querySQL = "select * from ";
 
         //1. 从ORMConfig中得到存有映射信息的集合
-        List<Mapper> mapperList=ORMConfig.mapperList;
+        List<Mapper> mapperList = ORMConfig.mapperList;
 
         //2. 遍历集合拿到我们想要的mapper对象
         for (Mapper mapper : mapperList) {
@@ -120,29 +124,29 @@ public class ORMSession {
             }
         }
 
-        System.out.println("MiniORM-findOne:" +querySQL);
+        System.out.println("MiniORM-findOne:" + querySQL);
 
         //6. 通过jdbc发送并执行sql, 得到结果集
-        PreparedStatement statement=connection.prepareStatement(querySQL);
-        ResultSet rs=statement.executeQuery();
+        PreparedStatement statement = connection.prepareStatement(querySQL);
+        ResultSet rs = statement.executeQuery();
 
         //7. 封装结果集，返回对象
-        if(rs.next()){
+        if (rs.next()) {
             // 查询到一行数据
             // 8.创建一个对象，目前属性的值都是初始值
-            Object obj=clz.newInstance();
+            Object obj = clz.newInstance();
             // 9. 遍历mapperList集合找到我们想要的mapper对象
-            for(Mapper mapper:mapperList){
+            for (Mapper mapper : mapperList) {
                 if (mapper.getClassName().equals(clz.getName())) {
                     //10. 得到存有属性-字段的映射信息
-                    Map<String,String> propMap = mapper.getPropMapper();
+                    Map<String, String> propMap = mapper.getPropMapper();
                     //11. 遍历集合分别拿到属性名和字段名
                     Set<String> keySet = propMap.keySet();
-                    for(String prop:keySet){  //prop就是属性名
-                       String column = propMap.get(prop);   //column就是和属性对应的字段名
-                       Field field = clz.getDeclaredField(prop);
-                       field.setAccessible(true);
-                       field.set(obj,rs.getObject(column));
+                    for (String prop : keySet) {  //prop就是属性名
+                        String column = propMap.get(prop);   //column就是和属性对应的字段名
+                        Field field = clz.getDeclaredField(prop);
+                        field.setAccessible(true);
+                        field.set(obj, rs.getObject(column));
                     }
                     break;
                 }
@@ -154,16 +158,16 @@ public class ORMSession {
             //13. 返回查询出来的对象
             return obj;
 
-        }else {
-           // 没有查到数据
-           return null;
+        } else {
+            // 没有查到数据
+            return null;
         }
 
     }
 
     //关闭连接，释放资源
-    public void close() throws  Exception{
-        if(connection!=null){
+    public void close() throws Exception {
+        if (connection != null) {
             connection.close();
             connection = null;
         }

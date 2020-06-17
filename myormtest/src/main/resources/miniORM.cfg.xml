@@ -8,10 +8,10 @@
     <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
     <property name="connection.driverClass">com.mysql.jdbc.Driver</property>
     <property name="connection.username">root</property>
-    <property name="connection.password">123</property>
+    <property name="connection.password">rss0211</property>
 
-    <mapping resource="cn/itcast/orm/test/entity/Book.mapper.xml"></mapping>
+    <mapping resource="com/lsy/myorm/test/pojo/Book.mapper.xml"></mapping>
 
-    <entity package="cn.itcast.orm.test.entity"></entity>
+    <entity package="com.lsy.myorm.test.pojo"></entity>
 
 </orm-factory>

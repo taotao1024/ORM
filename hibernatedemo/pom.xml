@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lsy.orm</groupId>
-    <artifactId>mybatisDemo</artifactId>
+    <artifactId>hibernatedemo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.4.0</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.3.10.Final</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -25,7 +25,6 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
-
     <build>
         <resources>
             <resource>
@@ -42,5 +41,4 @@
             </resource>
         </resources>
     </build>
-
 </project>

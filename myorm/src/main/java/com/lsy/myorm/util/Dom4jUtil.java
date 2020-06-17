@@ -2,14 +2,21 @@ package com.lsy.myorm.util;
 
 import java.io.File;
 import java.util.*;
+
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 /**
- * 基于dom4j的工具类
+ * dom4j工具类
+ *
+ * @author lsy
  */
 public class Dom4jUtil {
+
+    private Dom4jUtil() {
+
+    }
 
     /**
      * 通过文件的路径获取xml的document对象
