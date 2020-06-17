@@ -1,9 +1,8 @@
-package com.lsy.orm.utils;
+package com.lsy.myorm.util;
 
-import com.lsy.orm.annotation.ORMColumn;
-import com.lsy.orm.annotation.ORMId;
-import com.lsy.orm.annotation.ORMTable;
-
+import cn.itcast.orm.annotation.ORMColumn;
+import cn.itcast.orm.annotation.ORMId;
+import cn.itcast.orm.annotation.ORMTable;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;

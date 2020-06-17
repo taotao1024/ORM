@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lsy.orm</groupId>
-    <artifactId>MiniORM</artifactId>
+    <artifactId>myorm</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

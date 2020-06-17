@@ -1,7 +1,7 @@
-package com.lsy.orm.core;
+package com.lsy.myorm.core;
 
-import com.lsy.orm.utils.AnnotationUtil;
-import com.lsy.orm.utils.Dom4jUtil;
+import cn.itcast.orm.utils.AnnotationUtil;
+import cn.itcast.orm.utils.Dom4jUtil;
 import org.dom4j.Document;
 
 import java.io.File;

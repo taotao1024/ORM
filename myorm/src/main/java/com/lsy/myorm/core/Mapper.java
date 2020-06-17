@@ -1,4 +1,4 @@
-package com.lsy.orm.core;
+package com.lsy.myorm.core;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.lsy.orm.annotation;
+package com.lsy.myorm.annotation;
 
 
 
