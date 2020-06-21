@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 使用反射解析实体类中注解的工具类
+ * 通过反射解析实体类中注解的工具类
  *
  * @author lsy
  */
@@ -35,9 +35,10 @@ public class AnnotationUtil {
      * 得到MyOrmTable注解中的表名
      *
      * @param clz class
-     * @return
+     * @return tableName
      */
     public static String getTableName(Class clz) {
+        //判断注解
         if (clz.isAnnotationPresent(MyOrmTable.class)) {
             MyOrmTable ormTable = (MyOrmTable) clz.getAnnotation(MyOrmTable.class);
             return ormTable.name();
@@ -51,11 +52,12 @@ public class AnnotationUtil {
      * 得到主键属性和对应的字段
      *
      * @param clz class
-     * @return
+     * @return idValue
      */
     public static Map<String, String> getIdMapper(Class clz) {
         boolean flag = true;
         Map<String, String> map = new HashMap<>();
+        //获取全部属性
         Field[] fields = clz.getDeclaredFields();
         for (Field field : fields) {
             if (field.isAnnotationPresent(MyOrmId.class)) {
@@ -104,7 +106,8 @@ public class AnnotationUtil {
      * @param packagePath 包路全限定类名
      * @return
      */
-    public static Set<String> getClassNameByPackage(String packagePath) {  //cn.itcast.orm.entity
+    public static Set<String> getClassNameByPackage(String packagePath) {
+        //com.lsy.myorm.test.pojo
         Set<String> names = new HashSet<>();
         String packageFile = packagePath.replace(".", "/");
         String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
@@ -112,15 +115,19 @@ public class AnnotationUtil {
             classpath = Thread.currentThread().getContextClassLoader().getResource("/").getPath();
         }
         try {
+            //转码处理 参考Spring处理XML
             classpath = java.net.URLDecoder.decode(classpath, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         File dir = new File(classpath + packageFile);
         if (dir.exists()) {
+            //得到全部文件
             File[] files = dir.listFiles();
             for (File f : files) {
                 String name = f.getName();
+                //判断结尾
                 if (f.isFile() && name.endsWith(".class")) {
                     name = packagePath + "." + name.substring(0, name.lastIndexOf("."));
                     names.add(name);

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 该类用来封装和存储映射信息
+ * 封装和存储映射信息
  *
  * @author lsy
  */
@@ -29,6 +29,8 @@ public class Mapper {
      * 普通的属性和字段信息
      */
     private Map<String, String> propMapper = new HashMap<>();
+
+    // =======================get()/set()/toString()=======================
 
     public String getClassName() {
         return className;

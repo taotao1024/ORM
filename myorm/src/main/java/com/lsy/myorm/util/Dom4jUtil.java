@@ -8,7 +8,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 /**
- * dom4j工具类
+ * dom4j工具类，解析XML文件。
  *
  * @author lsy
  */
@@ -31,6 +31,7 @@ public class Dom4jUtil {
         Document document = null;
         try {
             SAXReader reader = new SAXReader();
+            //读取xml文件数据并解析成dom树
             document = reader.read(new File(path));
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,7 +40,8 @@ public class Dom4jUtil {
     }
 
     /**
-     * 获得某文档中某元素内某属性的值和元素的文本信息
+     * 值和元素的文本信息
+     * 获得某文档中某元素内某属性的
      *
      * @param document    xml文档对象
      * @param elementName 元素名
@@ -66,12 +68,12 @@ public class Dom4jUtil {
     public static Map<String, String> Elements2Map(Document document) {
         Element classElement = document.getRootElement().element("class");
         Map<String, String> mapping = new HashMap<>();
-
+        //获取主键信息
         Element idElement = classElement.element("id");
         String idKey = idElement.attribute("name").getValue();
         String idValue = idElement.attribute("column").getValue();
         mapping.put(idKey, idValue);
-
+        //获取非主键信息
         List<Element> propElements = classElement.elements("property");
         for (Element element : propElements) {
             String propKey = element.attribute("name").getValue();
@@ -105,7 +107,7 @@ public class Dom4jUtil {
      * @param document    xml文档对象
      * @param elementName 元素名
      * @param attrName    属性名
-     * @return 返回一个Set集合
+     * @return 返回一个Set集合(元素有可能是多个)
      */
     public static Set<String> Elements2Set(Document document, String elementName, String attrName) {
         List<Element> mappingList = document.getRootElement().elements(elementName);
@@ -123,7 +125,7 @@ public class Dom4jUtil {
      * @param document    xml文档对象
      * @param elementName 元素名
      * @param attrName    属性名
-     * @return 返回一个Set集合
+     * @return 返回String类型属性值
      */
     public static String getPropValue(Document document, String elementName, String attrName) {
         Element element = (Element) document.getRootElement().elements(elementName).get(0);

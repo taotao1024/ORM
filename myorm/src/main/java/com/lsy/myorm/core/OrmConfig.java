@@ -13,19 +13,47 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-// 该类用来解析并封装框架的核心配置文件中的数据
-public class ORMConfig {
+/**
+ * 解析并封装框架的核心配置文件中的数据
+ *
+ * @author lsy
+ */
+public class OrmConfig {
 
-    private static String classpath; //classpath路径
-    private static File cfgFile; // 核心配置文件
-    private static Map<String, String> propConfig; // <property>标签中的数据
-    private static Set<String> mappingSet; //映射配置文件路径
-    private static Set<String> entitySet; //实体类
-    public static List<Mapper> mapperList; // 映射信息
+    /**
+     * classpath路径
+     */
+    private static String classpath;
+    /**
+     * 核心配置文件 configurationFile
+     */
+    private static File cfgFile;
+    /**
+     * <property>标签中的数据
+     */
+    private static Map<String, String> propConfig;
+    /**
+     * 映射配置文件路径
+     */
+    private static Set<String> mappingSet;
+    /**
+     * 实体类
+     */
+    private static Set<String> entitySet;
+    /**
+     * 映射信息、需要对OrmSession提供访问
+     */
+    protected static List<Mapper> mapperList;
 
+    /**
+     * 解析核心数据
+     * myORM.cfg.xml
+     */
     static {
-        //得到的classpath路径
-        classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        //当前线程获取classpath路径
+        classpath = Thread.currentThread().getContextClassLoader()
+                .getResource("")
+                .getPath();
         //针对中文路径进行转码
         try {
             classpath = URLDecoder.decode(classpath, "utf-8");
@@ -34,29 +62,38 @@ public class ORMConfig {
         }
         //得到核心配置文件
         System.out.println(classpath);
-        cfgFile = new File(classpath + "miniORM.cfg.xml");
+        cfgFile = new File(classpath + "myORM.cfg.xml");
         if (cfgFile.exists()) {
             // 解析核心配置文件中的数据
             Document document = Dom4jUtil.getXMLByFilePath(cfgFile.getPath());
+            //数据库链接信息
             propConfig = Dom4jUtil.Elements2Map(document, "property", "name");
+            //mapping.xml 映射数据
             mappingSet = Dom4jUtil.Elements2Set(document, "mapping", "resource");
+            //注解下的属性
             entitySet = Dom4jUtil.Elements2Set(document, "entity", "package");
         } else {
             cfgFile = null;
-            System.out.println("未找到核心配置文件miniORM.cfg.xml");
+            System.out.println("未找到核心配置文件myORM.cfg.xml");
         }
 
     }
 
-    //从propConfig集合中获取数据并连接数据库
+    /**
+     * 从propConfig集合中获取数据并连接数据库
+     *
+     * @return connection对象
+     * @throws Exception 连接数据库异常
+     */
     private Connection getConnection() throws Exception {
+        //通过Map集合的key获取数据
         String url = propConfig.get("connection.url");
         String driverClass = propConfig.get("connection.driverClass");
         String username = propConfig.get("connection.username");
         String password = propConfig.get("connection.password");
-
         Class.forName(driverClass);
         Connection connection = DriverManager.getConnection(url, username, password);
+        //自动事务提交
         connection.setAutoCommit(true);
         return connection;
     }
@@ -65,7 +102,14 @@ public class ORMConfig {
 
         mapperList = new ArrayList<>();
 
-        //1. 解析xxx.mapper.xml文件拿到映射数据
+        // 1.解析xxx.mapper.xml文件拿到映射数据
+        // 使用Book.mapper.xml中的
+        // <class name="com.lsy.myorm.test.pojo.Book" table="t_book">
+        //    <id name="id" column="bid"></id>
+        //    <property name="name" column="bname"></property>
+        //    <property name="author" column="author"></property>
+        //    <property name="price" column="price"></property>
+        //  </class>
         for (String xmlPath : mappingSet) {
             Document document = Dom4jUtil.getXMLByFilePath(classpath + xmlPath);
             String className = Dom4jUtil.getPropValue(document, "class", "name");
@@ -83,7 +127,8 @@ public class ORMConfig {
 
         }
 
-        //2. 解析实体类中的注解拿到映射数据
+        // 2.解析实体类中的注解拿到映射数据
+        // 解析Pojo中的@MyOrmCumb、@MyOrmId、@MyOrmTable
         for (String packagePath : entitySet) {
             Set<String> nameSet = AnnotationUtil.getClassNameByPackage(packagePath);
             for (String name : nameSet) {
@@ -102,20 +147,22 @@ public class ORMConfig {
                 mapperList.add(mapper);
             }
         }
-
     }
 
-
-    //创建ORMSession对象
-    public ORMSession buildORMSession() throws Exception {
+    /**
+     * 链接数据库、获取映射信息、创建OpenSession
+     *
+     * @return OpenSession
+     * @throws Exception
+     */
+    public OrmSession buildORMSession() throws Exception {
         //1. 连接数据库
-        Connection connection = getConnection();
+        Connection connection = this.getConnection();
 
         //2. 得到映射数据
-        getMapping();
+        this.getMapping();
 
         //3. 创建ORMSession对象
-        return new ORMSession(connection);
-
+        return new OrmSession(connection);
     }
 }
