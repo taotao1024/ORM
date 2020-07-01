@@ -5,7 +5,7 @@
 3.实体类所在的包路径
 -->
 <orm-factory>
-    <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
+    <property name="connection.url">jdbc:mysql://120.79.134.119:3306/test</property>
     <property name="connection.driverClass">com.mysql.jdbc.Driver</property>
     <property name="connection.username">root</property>
     <property name="connection.password">rss0211</property>
